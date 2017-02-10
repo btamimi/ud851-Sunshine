@@ -221,8 +221,30 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             return true;
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
-
+        // COMPLETED (2) Launch the map when the map menu item is clicked
+        else if(id == R.id.action_open_map){
+            String address = "Cliff Avenue New London CT ";
+            Uri addressUri = UriBuilder(address);
+            Intent intent = new Intent(Intent.ACTION_VIEW,addressUri);
+            intent.setData(addressUri);
+            if(intent.resolveActivity(getPackageManager())!=null){
+                startActivity(intent);
+            }
+            else{
+                Log.d(TAG,"could'nt call "+addressUri.toString() + " , no reciving apps installed!");
+            }
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Uri UriBuilder(String address){
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("geo")
+                .path("0.0")
+                .query(address);
+
+        Uri addressUri = builder.build();
+        return addressUri;
     }
 }
